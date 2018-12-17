@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 fragment_Login.show(getFragmentManager(), "login");
 
-                //TODO : 测试服务器接口
+                //TODO : c层测试服务器接口，可移除
                 byte[] testData = "[sheldon]:test server!".getBytes();
                 //JniApiCall.jni_NanoLogin(testData,testData.length);
 
+                // Java层实现ssl认证
                 sslClient.sendMessageToServer("要在子线程处理网络交互！！！");
             }
         });

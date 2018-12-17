@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.AccessControlException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -17,12 +16,12 @@ import java.security.cert.CertificateFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
@@ -117,16 +116,19 @@ public class SSLClient {
             //---------------------
             */
 
-
             Log.d("SSL", "===start ssl thread... ");
             //启动初始化和数据读取线程
-            sslInitReadThread = new SSL_InitRead_Thread();
-            sslInitReadThread.start();
+            if(sslInitReadThread == null){
+                sslInitReadThread = new SSL_InitRead_Thread();
+                sslInitReadThread.start();
+            }
             //启动数据发送线程
-            sslWriteThread =new SSL_Write_Thread();
-            sslWriteThread.start();
+            if(sslWriteThread == null){
+                sslWriteThread = new SSL_Write_Thread();
+                sslWriteThread.start();
+            }
 
-            Log.d("SSL", "===start ssl thread... ");
+            Log.d("SSL", "===start ssl all thread. ");
         }
         catch (NoSuchAlgorithmException nsae) {
             Log.e("SSL", nsae.getMessage());
@@ -146,7 +148,7 @@ public class SSLClient {
     }
 
     // 初始化连接，并开始读取服务器发来的数据
-    private class SSL_InitRead_Thread extends Thread{  // 在线程的run()中进行处理
+    private class SSL_InitRead_Thread extends Thread {  // 在线程的run()中进行处理
         @Override
         public void run()
         {
@@ -209,7 +211,7 @@ public class SSLClient {
     }
 
     // 向服务器发送数据
-    private class SSL_Write_Thread extends Thread{  // 在线程的run()中进行处理
+    private class SSL_Write_Thread extends Thread {  // 在线程的run()中进行处理
         @Override
         public void run()
         {
