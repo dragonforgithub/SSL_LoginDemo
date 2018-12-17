@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'android-apt'
+android {
+    signingConfigs {
+        release {
+            keyAlias 'SignA5'
+            keyPassword '123456'
+            storeFile file('E:/project/androidStudio/signAPK/SignA5.jks')
+            storePassword '123456'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.lxl.login.demo"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // 设置Cmake参数
+        externalNativeBuild {
+            cmake {
+                cppFlags "" //编译参数
+                abiFilters 'armeabi-v7a'//,'arm64-v8a','x86','x86_64' //支持版本
+            }
+        }
+    }
+    // 配置CMakeLists.txt路径
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDirs = ["src/main/jni/jniLibs"]
+        }
+    }
+    packagingOptions { //For Error: More than one file was found with OS independent path
+        pickFirst 'lib/armeabi-v7a/libappJNI.so'
+    }
+    android {
+        useLibrary 'org.apache.http.legacy'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    androidTestImplementation 'junit:junit:4.12'
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    //annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+}
