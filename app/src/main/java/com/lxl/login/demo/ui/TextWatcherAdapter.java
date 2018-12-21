@@ -1,4 +1,4 @@
-package com.lxl.login.demo;
+package com.lxl.login.demo.ui;
 
 import android.text.Editable;
 import android.text.TextWatcher;

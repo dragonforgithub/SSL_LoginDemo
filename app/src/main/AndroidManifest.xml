@@ -6,6 +6,7 @@
     <!-- android:sharedUserId="android.uid.system" -->
 
     <!-- 对SD卡的写权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 对SD卡的读权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

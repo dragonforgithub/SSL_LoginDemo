@@ -1,4 +1,4 @@
-package com.lxl.login.demo;
+package com.lxl.login.demo.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+
+import com.lxl.login.demo.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
